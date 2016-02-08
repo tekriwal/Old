@@ -75,5 +75,25 @@ git init
 git add .
 git commit -m "Initial commit"
 
+% unsure if ^ did anything
+
+% Rules for scoring - https://sleepdata.org/datasets/chat/pages/manuals/polysomnography
+% -reading-center/6-08-01-scoring-sleep-stages-and-arousals.md
+
+%upgraded to the bundle package, so now have access to signal processing
+%commands, intend on using EEG1-4 to try and isolate spindles using 
+%p = bandpower(x,fs,freqrange)
+%x is time series input...?
+%fs is sampling frequency which I think should be 1024
+%for freq range: [0, (N-1)fs/(2N)] if x is real-valued and N is odd
+
+%bandpower(EEG1,1024,[12,14])
+%12-14 represents Hz range of interest (I think)
+
+%fvtool - good function, I think..
+
+
+
+
 
 
