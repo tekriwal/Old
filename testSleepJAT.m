@@ -2,7 +2,7 @@
 
 % data variable in WS
 
-Fs = data.Fs;
+Fs = 1024;
 numSecs = 2;
 
 windowLength = Fs * numSecs;
@@ -11,7 +11,7 @@ totalVals = length(data);
 totalNumWins = floor(totalVals/windowLength);
 
 start = 1; 
-stop = windowLegnth;
+stop = windowLength;
 
 avePowerAll = zeros(totalNumWins,1);
 for wi = 1:totalNumWins
@@ -25,10 +25,10 @@ for wi = 1:totalNumWins
     [power,freqS,~] = pwelch(tempWindow,windoW,noverlap,[],Fs,'power');
     
     % Step 2 
-    freqIndex = freqS >= 10 & freqS <= 12; n%
+    freqIndex = freqS >= 10 & freqS <= 12; %
     
     % Step 3
-    powerOfInterest = power(freqS);
+    powerOfInterest = power(freqIndex);
     
     % ave power
     avePow = mean(powerOfInterest);
@@ -40,7 +40,11 @@ for wi = 1:totalNumWins
     start = stop + 1;
     stop = stop + windowLength;
     
+    fprintf('Window Number %d is Done! \n', wi)
+    
     
 end
+
+stopp = 1;
     
 
