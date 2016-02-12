@@ -2,6 +2,8 @@
 
 % data variable in WS
 
+data = eegTemp(1,:);
+
 Fs = 1024;
 numSecs = 2;
 
@@ -14,6 +16,11 @@ start = 1;
 stop = windowLength;
 
 avePowerAll = zeros(totalNumWins,1);
+
+% Baseline
+
+
+
 for wi = 1:totalNumWins
 
     % Step 1
@@ -45,6 +52,15 @@ for wi = 1:totalNumWins
     
 end
 
-stopp = 1;
+%% Sample plot code
+
+plot(10*log10(avePowerAll))
+plot(10*log10(avePowerAll))
+map = mean(10*log10(avePowerAll));
+line([0 11000],[map map],'Color','r')
+stp = std(10*log10(avePowerAll));
+thr = map + (stp*3);
+line([0 14000],[thr thr],'Color','g')
+
     
 
