@@ -1,4 +1,4 @@
-% REMEMBER; Syntax is (ROW, COLUMN)
+% (ROW, COLUMN)
 
 % Figure out how to save something in Matlab...
 % accomplished, next step is figuring out whether I need the editor window
@@ -51,7 +51,7 @@
 %O2 correspond to columns 5 and 16, and central channels C3 and C4
 %correspond to columns 7 and 18 in the montage set
 
-z=2
+
 
 
 %%
@@ -435,7 +435,7 @@ HighFilt_Pat1_LFP0 = high_pass(Pat1_LFP0,1024,1);
 % fourier based plot
 
 
-x = whatever data 
+x = Pat1_LFP0
 
 N = length(x);
 xdft = fft(x);
@@ -449,6 +449,22 @@ grid on
 title('Periodogram Using FFT')
 xlabel('Frequency (Hz)')
 ylabel('Power/Frequency (dB/Hz)')
+
+%%
+
+Total_seconds = 29115797/Fs
+n = Total_seconds/30
+Rn = round(n)
+p = n/2
+Rp = round(p)
+
+% y = buffer(x,n,p) overlaps or underlaps successive frames in the output matrix by p samples
+
+Thirty_second_epochs_Pat1_LFP0 = buffer(Pat1_LFP0,Rn,Rp);
+
+
+
+
 
 
 
