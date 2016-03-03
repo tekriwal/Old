@@ -1,0 +1,21 @@
+Comments on Tekriwal Code
+
+Plot 10000 samples of single LFP
+
+1. Why are we detrending?
+
+2. Steps
+2a. Separately for each LFP electrode
+	a. Compute global mean, SD and threshold (mean + (SD * 7)) on absolute value of recording (Why)
+	b. Segment recording into 30 second epochs (per Hypnogram)
+	c. Examine each segment
+		i.   Detrend - to remove aberrant oscillations
+		ii.  Assess whether to keep or discard epoch based on amplitude criteria
+			1.  Compute absolute value of epoch
+			2.  Compute mean of epoch
+			3.  Does mean of epoch exceed global threshold?
+	d. You should now have a detrended epochs of segment with a boolean vector indicating whether or not to keep the epoch
+	e. Covert .jpeg of hypnogram to an integer vector of the sleep cycle info
+	f. Use the sleep cycle vector, boolean vector of 'good' epochs and epoch matrix to analyze cycle specific epochs
+	g. What next?... 
+	
