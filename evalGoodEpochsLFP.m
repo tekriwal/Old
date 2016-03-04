@@ -43,7 +43,7 @@ stop = lengSeg;
 
 for ti = 1:totNumSegs
    
-    tSeg = lfp0pat4(start:stop, 1);
+    tSeg = lfpDAT(start:stop, 1);
     
     absSeg = abs(tSeg);
     

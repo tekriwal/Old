@@ -58,6 +58,12 @@ EEG4 = data.data(:,18);
 % bit larger than what we're interested in, so like 2 secs if sleep
 % spindles are usually about 0.5 sec
 
+% De-trend each individual segment 
+
+%DT_Pat4_LFP0 = detrend(Pat4_LFP0);
+%DT_Pat4_LFP1 = detrend(Pat4_LFP1);
+%DT_Pat4_LFP2 = detrend(Pat4_LFP2);
+%DT_Pat4_LFP3 = detrend(Pat4_LFP3);
 
 
 %% this changes the data into 16 bit form and plots something out in the second line
@@ -66,4 +72,13 @@ data2 = uint16(data.data);
 plot(data.data(1:10000000,24))
 
 %% script workspace
+
+
+
+
+
+%%
+Notes 
+
+
 
