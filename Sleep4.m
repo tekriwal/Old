@@ -10,10 +10,7 @@ Pat4_LFP0 = data(1).data(:,23);
 Pat4_LFP1 = data(1).data(:,24);
 Pat4_LFP2 = data(1).data(:,25);
 Pat4_LFP3 = data(1).data(:,26);
-
-%this isn't right below, I want to average each cell with their counterpart
-%in other variables, not take the mean of all the cells...
-Pat4_LFPm = mean(Pat4_LFP0 + Pat4_LFP1 + Pat4_LFP2 + Pat4_LFP3);
+Pat4_LFPm = (Pat4_LFP0 + Pat4_LFP1 + Pat4_LFP2 + Pat4_LFP3)/4
 
 %Pat4_LFP0_2 = data(2).data(:,23);
 %Pat4_LFP1_2 = data(2).data(:,24);
@@ -22,7 +19,7 @@ Pat4_LFPm = mean(Pat4_LFP0 + Pat4_LFP1 + Pat4_LFP2 + Pat4_LFP3);
 
 % Let's create a plot to visualize what the data looks like
 
-plot(Pat4_LFP0);
+plot(Pat4_LFPm);
 legend('Pat4_LFP0','Location','northeast');
 xlabel('Samples');
 ylabel('Units (???)');
