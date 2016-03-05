@@ -1,6 +1,6 @@
 %% Psuedocodia
 
-% This script is for WY 2/29/16
+% This script is for WY 
 
 load('Patient_4_Sleep_LFP.mat')
 
@@ -10,33 +10,65 @@ Pat4_LFP0 = data(1).data(:,23);
 Pat4_LFP1 = data(1).data(:,24);
 Pat4_LFP2 = data(1).data(:,25);
 Pat4_LFP3 = data(1).data(:,26);
-Pat4_LFPm = (Pat4_LFP0 + Pat4_LFP1 + Pat4_LFP2 + Pat4_LFP3)/4
+Pat4_LFPm = (Pat4_LFP0 + Pat4_LFP1 + Pat4_LFP2 + Pat4_LFP3)/4;
 
 %Pat4_LFP0_2 = data(2).data(:,23);
 %Pat4_LFP1_2 = data(2).data(:,24);
 %Pat4_LFP2_2 = data(2).data(:,25);
 %Pat4_LFP3_2 = data(2).data(:,26);
 
-% Let's create a plot to visualize what the data looks like
-
 plot(Pat4_LFPm);
 legend('Pat4_LFP0','Location','northeast');
 xlabel('Samples');
 ylabel('Units (???)');
 
+% Dr. Wu's analysis of the sleep was analyzed as accurately as possible by
+% eye and ruler, that data was compiled and imported as three arrays, saved
+% as "Pat4_WorkspaceItems.mat".
+
+%matstruct = load('Pat4_LFPm.mat');
+%Pat4_LFPm_vals = matstruct.NameOfYourInputVariable;
+
+Pat4_LFPm_sample_num = length(Pat4_LFPm);
+num = xlsread('Pat4_Matlab_Events.xlsx');
+start_pos = num(:,1);
+end_pos = num(:,2);
+sleep_scores = num(:,3);
+last_scored_pos = max(end_pos);
+group_num = zeros(last_scored_pos, 1);
+for K = 1 : size(start_pos,1)
+  group_num(start_pos(K) : end_pos(K)) = sleep_scores(K);
+end
+
+
+if last_scored_pos > Pat4_LFPm_sample_num
+  group_num(Pat4_LFPm_sample_num+1 : end) = [];
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%
+
 % Break up into 30 second segments and identify which segments we may want
 % to consider as "noise" using Dr. T's evalGoodEpochsLFP.m script
 
-lfpDAT = Pat4_LFP0;
+lfpDAT = Pat4_LFPm;
 sampFreq = 1024;
 epchLeng = 30;
 
 evalGoodEpochsLFP( lfpDAT , sampFreq , epchLeng )
 
 
-% Dr. Wu's analysis of the sleep was analyzed as accurately as possible by
-% eye and ruler, that data was compiled and imported as three arrays, saved
-% as "Pat4_WorkspaceItems.mat".
 
 % Interval Number - indicates where in the sequence of the data that window
 % came from (is this extranenous? Can't we just use the row # from the
@@ -52,6 +84,8 @@ evalGoodEpochsLFP( lfpDAT , sampFreq , epchLeng )
 % segments where there is a switch from one to the other? We did estimate
 % where these transitions happen so chopping them out doesn't really seem
 % to matter
+
+% Ask Dr. T if the excel file seems match up with what we
 
 
 
