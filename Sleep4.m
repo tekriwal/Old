@@ -12,22 +12,45 @@ Pat4_LFP2 = data(1).data(:,25);
 Pat4_LFP3 = data(1).data(:,26);
 Pat4_LFPm = (Pat4_LFP0 + Pat4_LFP1 + Pat4_LFP2 + Pat4_LFP3)/4;
 
+% For shorter, second section of recording
+
 %Pat4_LFP0_2 = data(2).data(:,23);
 %Pat4_LFP1_2 = data(2).data(:,24);
 %Pat4_LFP2_2 = data(2).data(:,25);
 %Pat4_LFP3_2 = data(2).data(:,26);
+
+% Plot mean of the data
 
 plot(Pat4_LFPm);
 legend('Pat4_LFP0','Location','northeast');
 xlabel('Samples');
 ylabel('Units (???)');
 
-% Dr. Wu's analysis of the sleep was analyzed as accurately as possible by
+% Compute global mean, SD and threshold (mean + (SD * 7)) on absolute value
+% of recording
+
+% Substitute values > +/- 7 SD's with NAN's
+
+% Recompute global mean, SD and threshold (mean + (SD * 7)) on absolute
+% value of recording
+
+% Re-generate plot of mean but have NAN's highlighted as vertical red lines
+
+% Dr. Wu's analysis of the sleep was1 analyzed as accurately as possible by
 % eye and ruler, that data was compiled and imported as three arrays, saved
 % as "Pat4_WorkspaceItems.mat".
 
-%matstruct = load('Pat4_LFPm.mat');
-%Pat4_LFPm_vals = matstruct.NameOfYourInputVariable;
+% Details of "Pat4_WorkspaceItems.mat":
+% Row 1:78, Column A is start of discretely scored sleep cycle and B is its
+% end - units for both are sample numbers with fs = 1024. Column C is the
+% sleep score with 1,2, and 3 representing N1, N2, and N3; 4 represents
+% Wake; 5 represents REM
+
+% Load matfile, perform function to generate discrete segments of data based
+% on Column A and Column B, using Column C for identification
+
+% matstruct = load('Pat4_LFPm.mat'); Pat4_LFPm_vals =
+% matstruct.NameOfYourInputVariable;
 
 Pat4_LFPm_sample_num = length(Pat4_LFPm);
 num = xlsread('Pat4_Matlab_Events.xlsx');
@@ -45,8 +68,32 @@ if last_scored_pos > Pat4_LFPm_sample_num
   group_num(Pat4_LFPm_sample_num+1 : end) = [];
 end
 
+% Detrend data to remove any float on the traces: we may want to
+% detrend within 30 second epochs, as that is how Dr. Wu scored the EEG's.
+% Regardless, need to split the segments into uniform time periods of X
+% number of seconds and compare to global threshhold. Run segments through
+% function that will return boolean output for whether to keep or junk that
+% section
 
+% Plot with NAN's and junk'ed segments in red - see if there's a
+% correlation between thw two
 
+% Bandpass filter each segment using Dr. Thompson's "high_pass.m" and
+% "low_pass.m" - currently in f/Abosch but should be found in email from
+% 2/24/16 as well
+
+% Perform spectral power density analysis on segments and the overall
+% mean (weighted by segment length)
+
+% Create GUI that allows for cycling through of segments
+
+% T-test between segments (ok if different size segments used in
+% comparisons?), generating a p value for each comparison
+
+% Import Dr. Wu's plot and overlay with color code scheme so that
+% statistically similar segments appear in a given color - assumption is
+% that changes in sleep cycle cause a sustained change in power spectrum
+% that should match Dr. Wu's transitions
 
 
 
