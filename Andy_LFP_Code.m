@@ -1,26 +1,48 @@
 %WY is Patient 10 as of 3/15/16 - Ilknur and I are using the same excel
 %file now, dimensions {[32008747x32 double' char(10) ']}
 
-load('Patient_10_Sleep_LFP.mat')
-size1 = size(data(1).data)
-data(1).data((15386875:15536875),:) = [];
-size2 = size(data(1).data)
+% load('Patient_10_Sleep_LFP.mat')
 
 %%
-%assign LFP channel data to one variable, 
-lfp(:,1)=data(1).data(:,23)-data(1).data(:,24); 
-lfp(:,2)=data(1).data(:,24)-data(1).data(:,25);
-lfp(:,3)=data(1).data(:,25)-data(1).data(:,26);
+
+data1 = data(1).data;
+data_v2 = ones(31858747,32);
+
+if data1(1:15386874,:) ;
+    data_v2(1:15386874,:) = data1(1:15386874,:);
+end
+
+if data1(15536875:31858747,:);
+    data_v2(15386875:31858747,:) = data1(15536876:31858747,:);
+       
+end
+ 
+
+size_data1 = size(data(1).data);
+size_v2 = size(data_v2); % 31858747
+
+
+%%
+
+data(1).data_total = [data_v2 ; data(2).data]; 
+
+size_data2 = size(data(2).data); % 1043987
+size_total = size(data_v2); % 32902734
+
+%%
+
+%contact 0 is most ventral
+lfp(:,1)=data_v2(:,23)-data_v2(:,24); 
+lfp(:,2)=data_v2(:,24)-data_v2(:,25);
+lfp(:,3)=data_v2(:,25)-data_v2(:,26);
 
 %remove amplifier overload section in sleep stage score section 45
 %(13926872:16752505,:); visualually identified region to cut out as
 %(15386875:15536875,:); then altered Pat10_Matlab_Events to account for 150k
 %sample deletion
 
-
-%assign EMGs
-emg(:,1)=data(1).data(:,2)-data(1).data(:,13); % bicep
-emg(:,2)=data(1).data(:,1)-data(1).data(:,12); % FDC
+emg(:,1)=data_v2(:,2)-data_v2(:,13); % bicep
+emg(:,2)=data_v2(:,1)-data_v2(:,12); % FDC
 
 %%
 [b,a] = butter(2,1/512,'high');
@@ -30,9 +52,40 @@ lfp=filter(b,a,lfp);
 emg=filter(b,a,emg);
 emg=emg/100;
 
+%Notch for 60 Hz
+
+Fs = 1024;
+%tubs = number of bins
+tubs = 500;
+%f1 and f2 are stop bands, normalized to nyphist freq, so nyquist is equal
+%to 1, Nyphist = 512, so normalized 60 Hz is 60/512 = 0.117
+
+f1 = 0.115;
+f2 = 0.119;
+notch = fir1(tubs,[f1 f2], 'stop');
+
+%%
+tic
+lfp2 = filter(notch, 1, lfp);
+toc
+
+%%
+figure(1);
+plot(lfp(:));
+
+figure(2);
+plot(lfp2(:,1));
+
+figure(3);
+pwelch(lfp(:,1));
+
+figure(4);
+pwelch(lfp2(:,1));
+
 %for below you need to import the excel file into matlab so it can read it
 %as a variable, not as a file, import as numeric matrix
 
+%%
 annot=round(Pat10MatlabEvents);
 S=size(annot,1);
 hmap=zeros(513,S);
